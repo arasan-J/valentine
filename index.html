@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Just One Important Question…</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Poppins, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(-45deg, #ff758c, #ff7eb3, #ffb199, #ff0844);
+  background-size: 400% 400%;
+  animation: bgMove 12s ease infinite;
+}
+
+@keyframes bgMove {
+  0% {background-position:0% 50%}
+  50% {background-position:100% 50%}
+  100% {background-position:0% 50%}
+}
+
+/* Floating hearts */
+.heart {
+  position: fixed;
+  font-size: 20px;
+  animation: floatUp linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Card */
+.card {
+  width: 92%;
+  max-width: 520px;
+  padding: 40px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  text-align: center;
+  color: white;
+  position: relative;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(20px);}
+  to {opacity:1; transform: translateY(0);}
+}
+
+.title {
+  font-family: "Great Vibes", cursive;
+  font-size: 44px;
+  margin-bottom: 10px;
+}
+
+.question {
+  font-size: 22px;
+  margin: 20px 0 10px;
+}
+
+.sub {
+  opacity: 0.9;
+  font-size: 14px;
+}
+
+/* Buttons */
+button {
+  padding: 14px 26px;
+  margin: 12px;
+  font-size: 18px;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+}
+
+.yes-btn {
+  background: linear-gradient(45deg, #ff2e63, #ff6f91);
+  color: white;
+  box-shadow: 0 0 18px rgba(255,105,135,0.7);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.yes-btn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 28px rgba(255,105,135,1);
+}
+
+.no-btn {
+  background: rgba(255,255,255,0.85);
+  color: #444;
+  position: absolute;
+  transition: transform .35s ease-out;
+}
+
+/* Final screen */
+.final h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.gif {
+  width: 100%;
+  border-radius: 18px;
+  margin-top: 20px;
+}
+
+.sticker {
+  position: fixed;
+  font-size: 42px;
+  pointer-events: none;
+  animation: stickerPop 1.6s ease-out forwards;
+  z-index: 9999;
+}
+
+@keyframes stickerPop {
+  0% {
+    transform: scale(0.3) rotate(0deg);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.2) rotate(15deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-10deg) translateY(-40px);
+    opacity: 0;
+  }
+}
+
+.side-sticker {
+  position: fixed;
+  width: 240px;          /* ✅ bigger */
+  max-width: 28vw;       /* ✅ responsive */
+  pointer-events: none;
+  z-index: 9998;
+  animation: gifPop 2s ease-out forwards;
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));
+}
+
+@keyframes gifPop {
+  0% {
+    transform: scale(0.2) translateY(0);
+    opacity: 0;
+  }
+  35% {
+    transform: scale(1.1) translateY(-8px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(-50px);
+    opacity: 0;
+  }
+}
+
+.meter {
+  height: 8px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+
+#meterFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg,#ff2e63,#ff9a9e);
+  transition: width .4s;
+}
+
+#startScreen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(45deg,#ff758c,#ff7eb3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.startCard {
+  background: white;
+  padding: 40px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,.25);
+}
+
+.startCard h2 {
+  color: #ff2e63;
+  margin-bottom: 20px;
+}
+
+#startBtn {
+  background: linear-gradient(45deg,#ff2e63,#ff6f91);
+  color: white;
+  font-size: 18px;
+  padding: 14px 28px;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+}
+
+.love-name {
+  font-family: "Great Vibes", cursive;
+  font-size: 56px;
+  margin-top: 12px;
+  background: linear-gradient(45deg,#fff,#ffe0ec,#fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 6px 18px rgba(255,255,255,0.35);
+  animation: glowName 2s ease-in-out infinite alternate;
+}
+
+@keyframes glowName {
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
+}
+</style>
+</head>
+
+<body>
+
+<div id="startScreen">
+  <div class="startCard">
+    <h2>💌 A Little Surprise For You</h2>
+    <button id="startBtn">Start 💖</button>
+  </div>
+</div>
+
+<div class="card" id="card" style="display:none;">
+<div class="meter"><div id="meterFill"></div></div>
+  <div class="title">A Little Question 💌</div>
+  <div class="question" id="question"></div>
+  <div class="sub">Answer honestly 😄</div>
+  <div id="buttons"></div>
+</div>
+
+<audio id="bgMusic" preload="auto">
+  <source src="announcement.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="noSound" preload="auto">
+  <source src="faaah.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="finalMusic" preload="auto" loop>
+  <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="yesSound" preload="auto">
+  <source src="yes.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const bgMusic = document.getElementById("bgMusic");
+bgMusic.volume = 0.5;
+
+const finalMusic = document.getElementById("finalMusic");
+finalMusic.volume = 0.6;
+
+const yesSound = document.getElementById("yesSound");
+yesSound.volume = 0.8;
+
+const stickerGifs = [
+"https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif", // cartoon couple hug
+"https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif", // hearts burst
+"https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif", // running hug
+"https://media.giphy.com/media/QvBoMEcQ7DQXK/giphy.gif",   // happy couple
+"https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif"  // cute heart love
+];
+
+/* ===== Floating hearts background ===== */
+function createHeart() {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "💖";
+  h.style.left = Math.random() * 100 + "vw";
+  h.style.animationDuration = (Math.random()*3+4) + "s";
+  h.style.fontSize = (Math.random()*18+14) + "px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+}
+setInterval(createHeart, 400);
+
+/* ===== Questions — EDIT THESE ===== */
+const questions = [
+  "Do you know how special you are to me? 💗",
+  "Do you enjoy our time together? 🌸",
+  "Do you smile when you see my messages? 😊",
+  "Can I make this Valentine unforgettable for you? ✨",
+  "Will you be my Valentine? ❤️"
+];
+
+const finalGif = "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif";
+
+let index = 0;
+let gifIndex = 0;
+const qEl = document.getElementById("question");
+const btnEl = document.getElementById("buttons");
+const card = document.getElementById("card");
+
+const stickers = ["💖","💘","💝","🌹","😘","🥰","💞","💕","🧸"];
+
+function showSticker() {
+  const s = document.createElement("div");
+  s.className = "sticker";
+  s.innerText = stickers[Math.floor(Math.random() * stickers.length)];
+
+  const side = Math.floor(Math.random() * 4);
+
+  // spawn from random side
+  if (side === 0) { // left
+    s.style.left = "20px";
+    s.style.top = Math.random() * window.innerHeight + "px";
+  } else if (side === 1) { // right
+    s.style.right = "20px";
+    s.style.top = Math.random() * window.innerHeight + "px";
+  } else if (side === 2) { // top
+    s.style.top = "20px";
+    s.style.left = Math.random() * window.innerWidth + "px";
+  } else { // bottom
+    s.style.bottom = "20px";
+    s.style.left = Math.random() * window.innerWidth + "px";
+  }
+
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 1600);
+}
+
+
+function showQuestion() {
+  qEl.innerText = questions[index];
+  btnEl.innerHTML = "";
+
+  const yes = document.createElement("button");
+  yes.className = "yes-btn";
+  yes.innerText = "Yes 💘";
+  yes.onclick = () => {
+  unlockAudio();
+
+  // 🔊 play yes sound
+  yesSound.currentTime = 0;
+  yesSound.play().catch(()=>{});
+
+  next();
+};
+
+  const no = document.createElement("button");
+  no.className = "no-btn";
+  no.innerText = "No 🙈";
+  
+  meterFill.style.width =
+  ((index+1)/questions.length)*100 + "%";
+
+
+ let moveX = 0;
+let moveY = 0;
+let yesScale = 1;
+
+no.onmouseenter = () => {
+const snd = document.getElementById("noSound");
+
+if (audioUnlocked) {
+  snd.pause();
+  snd.currentTime = 0;
+  snd.playbackRate = 1 + Math.random() * 0.25; // funny variation
+  snd.play().catch(err => console.log("Play blocked:", err));
+}
+
+  
+  const btnRect = no.getBoundingClientRect();
+  const cardRect = card.getBoundingClientRect();
+
+  const padding = 20;
+
+  const maxX = cardRect.width - btnRect.width - padding;
+  const maxY = cardRect.height - btnRect.height - padding;
+
+  const newX = Math.random() * maxX - (btnRect.left - cardRect.left);
+  const newY = Math.random() * maxY - (btnRect.top - cardRect.top);
+
+  no.style.transform = `translate(${newX}px, ${newY}px)`;
+  
+   yesScale += 0.15;
+  yes.style.transform = `scale(${yesScale})`;
+};
+
+  btnEl.appendChild(yes);
+  btnEl.appendChild(no);
+}
+
+function next() {
+showSideGifSticker(); // 💞 add this line
+
+  index++;
+  if (index < questions.length) showQuestion();
+  else showFinal();
+}
+
+function showFinal() {
+  card.classList.add("final");
+  card.innerHTML = `
+    <h1>You Said Yes! 💞</h1>
+    <p>That makes my heart so happy 💗</p>
+    <p>Happy Valentine’s Day 🌹</p>
+
+    <div class="love-name">Nikitha 💖</div>
+
+    <img class="gif" src="${finalGif}">
+  `;
+
+  confetti();
+
+  // 🎵 play final music
+  finalMusic.currentTime = 0;
+  finalMusic.play().catch(()=>{});
+}
+
+/* ===== Confetti ===== */
+function confetti() {
+  for (let i=0;i<90;i++){
+    const c=document.createElement("div");
+    c.style.position="fixed";
+    c.style.width="8px";
+    c.style.height="8px";
+    c.style.left=Math.random()*100+"vw";
+    c.style.top="-10px";
+    c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    c.style.borderRadius="50%";
+    document.body.appendChild(c);
+    c.animate(
+      [{transform:"translateY(0)"},{transform:`translateY(110vh)`}],
+      {duration: Math.random()*2000+2000, easing:"linear"}
+    );
+    setTimeout(()=>c.remove(),4000);
+  }
+}
+
+function showSideGifSticker() {
+  const img = document.createElement("img");
+
+  // ✅ sequential pick instead of random
+  img.src = stickerGifs[gifIndex];
+  gifIndex = (gifIndex + 1) % stickerGifs.length;
+
+  img.className = "side-sticker";
+
+  const side = gifIndex % 2 === 0 ? "left" : "right"; // alternate sides
+  const vertical = Math.random() * (window.innerHeight * 0.7) + 40;
+
+  if (side === "left") {
+    img.style.left = "10px";
+  } else {
+    img.style.right = "10px";
+  }
+
+  img.style.top = vertical + "px";
+
+  document.body.appendChild(img);
+  setTimeout(() => img.remove(), 2000);
+}
+
+let audioUnlocked = false;
+
+document.body.addEventListener("click", () => {
+  if (!audioUnlocked) {
+    const a = document.getElementById("noSound");
+    a.volume = 0;        // silent play to unlock
+    a.play().then(() => {
+      a.pause();
+      a.currentTime = 0;
+      a.volume = 1;
+      audioUnlocked = true;
+    });
+  }
+}, { once: true });
+
+const snd = document.getElementById("noSound");
+
+function unlockAudio() {
+  if (audioUnlocked) return;
+
+  snd.volume = 0;
+  snd.play().then(() => {
+    snd.pause();
+    snd.currentTime = 0;
+    snd.volume = 1;
+    audioUnlocked = true;
+    console.log("Audio unlocked ✅");
+  }).catch(() => {});
+}
+
+document.getElementById("startBtn").onclick = () => {
+  unlockAudio();
+
+  bgMusic.currentTime = 0;
+  bgMusic.play().catch(()=>{});
+
+  document.getElementById("startScreen").remove();
+  document.getElementById("card").style.display = "block";
+  showQuestion();
+};
+
+</script>
+
+</body>
+</html>
